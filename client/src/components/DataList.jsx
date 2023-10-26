@@ -5,13 +5,13 @@ function DataList({ data }) {
     <div className="data-list">
       <h2>Data List</h2>
       <ul>
-        {data.map((item) => (
-          <li key={item.id}>
-            <strong>Column 1:</strong> {item.column1}<br />
-            <strong>Column 2:</strong> {item.column2}<br />
-            <strong>Column 3:</strong> {item.column3}<br />
-            <strong>Column 4:</strong> {item.column4}<br />
-            <strong>Column 5:</strong> {item.column5}
+        {data.map((item, index) => (
+          <li key={index}>
+            <strong>ID:</strong> {item.id}<br />
+            <strong>Name:</strong> {item.name}<br />
+            <strong>Age:</strong> {item.age}<br />
+            <strong>Email:</strong> {item.email}<br />
+            <strong>Address:</strong> {item.address}
           </li>
         ))}
       </ul>
