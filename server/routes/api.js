@@ -4,10 +4,11 @@ import fs from 'fs';
 
 const router = express.Router();
 
-const dataPath = './backend/data/data.csv';
+const dataPath = '../server/data/data.csv';
 
 // Read data from CSV file
 router.get('/data', (req, res) => {
+console.log("hello");
   const results = [];
   fs.createReadStream(dataPath)
     .pipe(csvParser())
@@ -19,7 +20,9 @@ router.get('/data', (req, res) => {
 
 // Create a new record in the CSV file
 router.post('/data', (req, res) => {
+
   const newData = req.body;
+ console.log("hellfo");
   const csvData = `${newData.column1},${newData.column2},${newData.column3},${newData.column4},${newData.column5}\n`;
 
   fs.appendFile(dataPath, csvData, (err) => {
