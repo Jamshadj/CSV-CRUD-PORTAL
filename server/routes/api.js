@@ -55,11 +55,27 @@ router.put('/data/:id', (req, res) => {
         res.json({ message: 'Record updated successfully' });
       });
   });
-
-// Delete a record from the CSV file
-router.delete('/data/:id', (req, res) => {
-  // Implement delete logic here
-  res.json({ message: 'Record deleted successfully' });
-});
+ 
+  // Delete a record from the CSV file
+  router.delete('/data/:id', (req, res) => {
+    const recordId = req.params.id;
+  
+    const newData = [];
+    fs.createReadStream(dataPath)
+      .pipe(csvParser())
+      .on('data', (data) => {
+        if (data.id !== recordId) {
+          newData.push(data);
+        }
+      })
+      .on('end', () => {
+        fs.writeFileSync(dataPath, ''); // Clear the existing file
+        newData.forEach((data) => {
+          const csvData = `${data.column1},${data.column2},${data.column3},${data.column4},${data.column5}\n`;
+          fs.appendFileSync(dataPath, csvData);
+        });
+        res.json({ message: 'Record deleted successfully' });
+      });
+  });
 
 export default router;
