@@ -29,7 +29,7 @@ router.get('/data', (req, res) => {
 router.post('/data', (req, res) => {
   try {
     const newData = req.body;
-    const csvData = `${newData.column1},${newData.column2},${newData.column3},${newData.column4},${newData.column5},${newData.id}\n`;
+    const csvData = `${newData.Name},${newData.Age},${newData.City},${newData.Email},${newData['Phone Number']},${newData.id}\n`;
   
     fs.appendFileSync(dataPath, csvData);
     res.json({ message: 'Record added successfully' });
@@ -39,19 +39,18 @@ router.post('/data', (req, res) => {
 });
 
 
+// update  record in the CSV file
 router.patch('/data/:id', (req, res) => {
   try {
     const recordId = req.params.id;
     const updatedData = req.body;
-    console.log(updatedData);
     const newData = [];
     let headerSkipped = false;
 
     fs.createReadStream(dataPath)
       .pipe(csvParser())
       .on('data', (data) => {
-         if (data.id === recordId) {
-          console.log("ede");
+         if (data.ID === recordId) {
           // Update the record with new data
           const updatedRecord = { ...data, ...updatedData };
           newData.push(updatedRecord);
@@ -80,12 +79,10 @@ router.patch('/data/:id', (req, res) => {
 router.delete('/data/:id', (req, res) => {
   try {
     const recordId = req.params.id;
-    console.log(recordId);
-
     const records = [];
     const readable = Readable.from(fs.createReadStream(dataPath).pipe(csvParser()));
     readable.on('data', (data) => {
-      if (data.id !== recordId) {
+      if (data.ID !== recordId) {
         records.push(data);
       }
     });
@@ -94,12 +91,12 @@ router.delete('/data/:id', (req, res) => {
       const csvWriter = createObjectCsvWriter({
   path: dataPath,
   header: [
-    { id: 'column1', title: 'column1' },
-    { id: 'column2', title: 'column2' },
-    { id: 'column3', title: 'column3' },
-    { id: 'column4', title: 'column4' },
-    { id: 'column5', title: 'column5' },
-    { id: 'id', title: 'ID' }
+    { id: 'Name', title: 'Name' },
+    { id: 'Age', title: 'Age' },
+    { id: 'City', title: 'City' },
+    { id: 'Email', title: 'Email' },
+    { id: 'Phone Number', title: 'Phone Number' },
+    { id: 'ID', title: 'ID' }
   ],
   append: false // Overwrite the existing file
 });
