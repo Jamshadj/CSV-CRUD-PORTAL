@@ -5,11 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha 'tests/**/*.test.js'",
-    "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js"
+    "test": "nyc mocha 'tests/**/*.test.js'",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
-  
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -24,8 +23,10 @@
   "devDependencies": {
     "chai": "^4.3.10",
     "chai-http": "^4.4.0",
+    "istanbul": "^0.4.5",
     "mocha": "^10.2.0",
     "nodemon": "^3.0.1",
+    "nyc": "^15.1.0",
     "sinon": "^17.0.0"
   }
 }
